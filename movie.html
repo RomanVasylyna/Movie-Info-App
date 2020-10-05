@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://use.fontawesome.com/2973103c3a.js"></script>
+</head>
+<body onload="loadContent()">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+  <a class="navbar-brand" href="index.html">Movie Info</a>
+  </div>
+</nav>
+
+
+<!-- Display -->
+<section id="movieDisplay" class="mt-5 mb-5">
+<div class="container text-white">
+
+<div class="top">
+<div class="row">
+<div class="col-lg-4 text-center">
+<img src="" class="img-fluid mt-4 p-3" id="image">
+</div>
+<div class="col-lg-8">
+  <h3 class="display-4 pt-3" id="title">Title</h3>
+  <div id="movieDetails" class="p-3">
+  <p><b>Genre :</b> <span id="genre"></span></p>
+  <p><b>Released :</b> <span id="released"></span></p>
+  <p><b>Rated :</b> <span id="rated"></span></p>
+  <p><b>IMDB rating :</b> <span id="rating"></span></p>
+  <p><b>Director :</b> <span id="director"></span></p>
+  <p><b>Writer :</b> <span id="writer"></span></p>
+  <p><b>Actors :</b> <span id="actors"></span></p>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="bottom p-4">
+<div class="row">
+<div class="col-lg-12">
+
+  <div class="plot p-4">
+    <h2>Plot</h2>
+    <p id="plot">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro eveniet impedit veritatis perferendis blanditiis consequatur quo at, quas recusandae quisquam eos error autem vero sint soluta adipisci ipsam. Repellat, nam!</p>
+    <hr>
+    <a class="btn btn-primary" id="imdb">View on IMDB</a>
+    <a class="btn btn-secondary" href="index.html" id="back">Back to Search</a>
+  </div>
+
+
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<script>
+
+  //Get Movie from Session Storage + Work with it
+  function loadContent() {
+
+  let singleMovie = JSON.parse(sessionStorage.getItem('movie'));
+  let allMovies = JSON.parse(sessionStorage.getItem('moviesObj'));
+
+  axios.get(`http://www.omdbapi.com/?t=${singleMovie}&apikey=thewdb`)
+  .then(result => {
+   let obj = result.data;
+   fillInfo(obj);
+
+   //Button Events
+   $('#back').on('click', () => {
+   window.open('index.html');
+   });
+
+   $('#imdb').on('click', () => {
+   window.open(`http://imdb.com/title/${obj.imdbID}`);
+   });
+
+  })
+  .catch(error => console.log(error));
+
+
+  }
+
+  //Fill Elements with movie info
+  function fillInfo(obj) {
+  $('#title').text(obj.Title);
+  $('#image').attr('src', obj.Poster);
+  $('#released').text(obj.Year);
+  $('#genre').text(obj.Genre);
+  $('#rated').text(obj.Rated);
+  $('#rating').text(obj.imdbRating);
+  $('#director').text(obj.Director);
+  $('#writer').text(obj.Writer);
+  $('#actors').text(obj.Actors);
+  $('#plot').text(obj.Plot);
+  }
+
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+body{
+margin: 0;
+padding: 0;
+background: black;
+}
+
+.navbar{
+background: black;
+border-bottom: 2px solid rgb(89, 89, 89);
+}
+
+#movieDetails{
+background:rgb(48, 48, 46)
+}
+
+#movieDisplay .container{
+background: rgb(26, 25, 25);
+border-radius: 5px;
+}
+
+.plot{
+border-radius: 5px;
+border: 3px solid rgb(19, 18, 19);
+}
+
+.btn{
+cursor: pointer;
+}
+
+#searchCard{
+background: rgb(27, 28, 27);
+}
+
+#generatedMovies{
+background: rgb(27, 28, 27);   
+}
